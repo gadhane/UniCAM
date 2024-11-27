@@ -1,8 +1,3 @@
-# '''
-# Adapted from Original Author: zhenxingjian
-# https://github.com/zhenxingjian/Partial_Distance_Correlation/blob/main/Partial_Distance_Correlation/main_CAM.py
-# '''
-
 import argparse
 
 import matplotlib.pyplot as plt
@@ -190,8 +185,8 @@ if __name__ == '__main__':
     modelTS1remain = PDC_Model(modelT, modelS1, normalize_X, normalize_Y, block)
     modelS1remain = PDC_Model(modelS1, modelT, normalize_X, normalize_Y, block)
 
-    target_layers_TS1 = [modelTS1remain.modelX.layer2[-1]]
-    target_layers_S1 = [modelS1remain.modelX.layer2[-1]]
+    target_layers_TS1 = [modelTS1remain.modelX.layer4[-1]]
+    target_layers_S1 = [modelS1remain.modelX.layer4[-1]]
 
     target_T = [model1.layer4[-1]]
     target_S1 = [model2.layer4[-1]]

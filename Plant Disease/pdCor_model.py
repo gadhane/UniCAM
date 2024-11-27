@@ -1,7 +1,11 @@
-# '''
-# Adapted from Original Author zhenxingjian
-# https://github.com/zhenxingjian/Partial_Distance_Correlation/blob/main/Partial_Distance_Correlation/PDC_model.py
-# '''
+# This is an implementation of distance and partial distance correlation.
+
+# Originally forked from: https://github.com/zhenxingjian/Partial_Distance_Correlation/blob/main/Partial_Distance_Correlation/Partial_DC.py
+
+# This code provides functions to calculate the distance correlation and partial distance
+# correlation between variables. It likely leverages the mathematical concepts underlying
+# these statistical measures.
+
 import argparse
 import numpy as np
 import time

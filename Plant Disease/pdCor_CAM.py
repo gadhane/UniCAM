@@ -1,7 +1,11 @@
-# '''
-# Adapted from Original Author: zhenxingjian
-# https://github.com/zhenxingjian/Partial_Distance_Correlation/blob/main/Partial_Distance_Correlation/PDC_CAM.py
-# '''
+# This code quantifies and generates gradients of unique features.
+
+# Originally forked from: https://github.com/zhenxingjian/Partial_Distance_Correlation/blob/main/Partial_Distance_Correlation/PDC_CAM.py
+
+# This implementation focuses on identifying and analyzing the gradients associated with
+# unique features within the data. It likely builds upon the concepts of Partial Distance
+# Correlation (PDC) for feature selection or analysis.
+
 from pytorch_grad_cam.base_cam import BaseCAM
 from pytorch_grad_cam.utils.image import show_cam_on_image
 import argparse

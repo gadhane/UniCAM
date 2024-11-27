@@ -1,3 +1,7 @@
+# This code trains a Teacher and Student model using Knowledge Distillation (KD).
+# It leverages the kd_lib library and provides flexibility to choose the desired KD type
+# for training the Student model.
+
 import torch
 import torch.optim as optim
 from torchvision import datasets, transforms, models
@@ -67,7 +71,7 @@ if __name__ == '__main__':
     # Now, this is where KD_Lib comes into the picture
     distiller = VanillaKD(teacher, student, trainloader, validloader,
                           teacher_optimizer, student_optimizer)
-    # distiller.train_teacher(epochs=20, plot_losses=False, save_model=True, filename = teacherperformance)    # Train the teacher network
-    distiller.train_student(epochs=30, plot_losses=False, save_model=True, filename = teacherperformance)    # Train the student network
+    distiller.train_teacher(epochs=20, plot_losses=False, save_model=True, filename = teacherperformance)    # Train the teacher network
+    distiller.train_student(epochs=20, plot_losses=False, save_model=True, filename = teacherperformance)    # Train the student network
     # distiller.evaluate(teacher=False)                                       # Evaluate the student network
     # distiller.get_parameters()                                              # A utility function to get the number of

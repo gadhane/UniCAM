@@ -114,7 +114,7 @@ block = 1  # Layers is always reverse, Eg. 2 is the layer4, 5 is layer1.
 # modelTS1remain = PDC_Model(model_T, model_S, normalize_X, normalize_Y, block)
 modelTS1remain = PDC_Model(model_S, model_T, normalize_X, normalize_Y, block)
 
-targets = ['modelX.layer3.5.conv3', 'modelX.layer4.2.conv3']
+targets = ['modelX.layer4.2.conv3', 'modelX.layer4.2.conv3']
 
 if __name__ == '__main__':
     # Loop through each file in the CAMS directory

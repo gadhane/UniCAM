@@ -1,3 +1,37 @@
+# This code generates Grad-CAM visualizations for a given image and model.
+
+# 1. Load the Image and Preprocess:
+#   - Load the image and resize it to the model's input size.
+#   - Preprocess the image according to the model's requirements (e.g., normalization, 
+#     channel order).
+
+# 2. Forward Pass and Gradient Calculation:
+#   - Forward pass the image through the model to obtain the output logits.
+#   - Calculate the gradients of the target class's logit with respect to the activations
+#     of the target layer (usually the last convolutional layer).
+
+# 3. Compute Weighted Activations:
+#   - Calculate the weighted sum of the target layer activations, using the gradients
+#     as weights. This highlights the regions that most influenced the prediction.
+
+# 4. Generate the Heatmap:
+#   - Upsample the weighted activations to the original image size.
+#   - Apply a ReLU activation to ensure non-negative values.
+#   - Normalize the heatmap to a range of [0, 1].
+
+# 5. Overlay Heatmap on Original Image:
+#   - Overlay the heatmap on the original image to visualize the important regions.
+#   - Adjust the alpha value to control the transparency of the heatmap.
+
+# 6. Display or Save the Visualization:
+#   - Display the visualization using a plotting library like Matplotlib.
+#   - Save the visualization as an image file (e.g., PNG, JPEG).
+
+# Note:
+#   - The choice of the target layer can influence the granularity of the visualization.
+#   - Experiment with different layers to obtain insights at different levels of abstraction.
+#   - Consider using Grad-CAM++ for more precise visualizations, especially in cases where
+#     the target class is not the most confident prediction.
 from collections import OrderedDict
 import numpy as np
 import torch

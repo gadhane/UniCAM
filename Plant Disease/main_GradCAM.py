@@ -1,3 +1,7 @@
+
+# This code generates Grad-CAM visualizations for a given image and model.
+# Based on the Target class.
+
 from torchvision import models, transforms
 from torch.autograd import Variable
 from PIL import Image
