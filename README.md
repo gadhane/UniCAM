@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # UniCAM
 
 UniCAM is a visual explainability technique specifically designed to extract knowledge and residual features during knowledge distillation.
@@ -252,4 +252,3 @@ python .\quantifyXAI.py --max-batches 10 --batch-size 8
 - `main_UniCAM.py` is the main PetImages explanation implementation.
 - `main_UniCAM_mixed.py` is a model-family validation script. It is useful for sanity checks, but it is not the primary PetImages experiment.
 - If you want RS/FSS from whole raw features only, use `main_RSFSS_raw.py`.
->>>>>>> 60c1059 (update: modified code and fix errors, updated BERT to CLIP embeddings.)
