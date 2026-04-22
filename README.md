@@ -32,8 +32,6 @@ Teacher-only quantification baseline.
 ### `quantifyXAI.py`
 Mixed-architecture quantification preset.
 
-### `main_train.py`
-Training entrypoint for the maintained PetImages pipeline.
 
 ### `vanillaKd.py`
 Legacy KD training script kept in the repository.
@@ -103,7 +101,7 @@ You can adapt the pipeline to your own teacher and student models and your own d
 - If you want to support a new model family, update the mixed script in three places:
   - model loading
   - feature extractor for residual computation
-  - target-layer selection for Grad-CAM hooks
+  - target-layer selection for UniCAM hooks
 
 ### For quantification
 
@@ -128,6 +126,6 @@ You can adapt the pipeline to your own teacher and student models and your own d
 
 ## Notes
 
-- `main_UniCAM.py` is the main explainability script for trained PetImages ResNet teacher-student experiments.
+- `main_UniCAM.py` is the main explainability script used for ResNet teacher-student experiments.
 - `main_UniCAM_mixed.py` is the maintained mixed-backbone explainability path for supported families such as `resnet` and `vgg`.
 - For quantification, prefer `main_RSFSS_raw.py`.
