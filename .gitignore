@@ -158,3 +158,18 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# PetImages generated/data directories: keep only library code directories tracked.
+PetImages/*/
+!PetImages/KD_Lib/
+!PetImages/KD_Lib/**
+!PetImages/pytorch_grad_cam/
+!PetImages/pytorch_grad_cam/**
+
+# Local generated/cache directories.
+.hf_cache/
+RemoveResults/
+data/
+distance/
+models/
+prototype_cache/
