@@ -19,7 +19,7 @@ from rsfss_common import (
     write_report,
     write_text_report,
 )
-from rsfss_table import write_rsfss_summary_csv, write_rsfss_summary_table
+from rsfss_table import write_fss_summary_csv, write_rsfss_summary_csv, write_rsfss_summary_table
 
 
 def parse_args():
@@ -66,6 +66,10 @@ def parse_args():
     parser.add_argument(
         "--table-csv-output",
         default=str(Path(__file__).resolve().parent / "distance" / "mixedModelsPetImages" / "RSFSS_raw_mixed_table.csv"),
+    )
+    parser.add_argument(
+        "--fss-table-csv-output",
+        default=str(Path(__file__).resolve().parent / "distance" / "mixedModelsPetImages" / "RSFSS_raw_mixed_fss_table.csv"),
     )
     return parser.parse_args()
 
@@ -221,6 +225,7 @@ def main():
     write_text_report(report, args.text_output)
     write_rsfss_summary_table(report, args.table_output)
     write_rsfss_summary_csv(report, args.table_csv_output)
+    write_fss_summary_csv(report, args.fss_table_csv_output)
 
 
 if __name__ == "__main__":

@@ -13,6 +13,16 @@ def _display_name(model_name: str) -> str:
     return model_name.replace("_", " ").title()
 
 
+def _build_fss_explanation(fss_info: Dict[str, Any]) -> str:
+    score = float(fss_info["signed"])
+    magnitude = abs(score)
+    if magnitude >= 0.7:
+        return "High resemblance between teacher and student features at this layer."
+    if magnitude >= 0.3:
+        return "Moderate resemblance between teacher and student features at this layer."
+    return "Low resemblance in the features, which may indicate the student is learning features the teacher did not learn or failing to learn new features."
+
+
 def _build_explanation(
     teacher_residual_info: Dict[str, Any],
     student_residual_info: Dict[str, Any],
@@ -67,14 +77,31 @@ def build_rsfss_summary_rows(report: Dict[str, Any]) -> List[Dict[str, str]]:
     return rows
 
 
-def _markdown_table(rows: List[Dict[str, str]]) -> str:
-    headers = [
-        "KD technique",
-        "Layer",
-        "Relevance of Teacher Model Features",
-        "Relevance of Student Model Features",
-        "Explanation",
-    ]
+def build_fss_summary_rows(report: Dict[str, Any]) -> List[Dict[str, str]]:
+    similarity = report.get("similarity", {})
+    rows: List[Dict[str, str]] = []
+
+    for metric_key, layer_scores in similarity.items():
+        if metric_key.endswith("_vs_ground_truth") or "_vs_" not in metric_key:
+            continue
+        teacher_name, student_name = metric_key.split("_vs_", 1)
+        for layer_name, fss_info in layer_scores.items():
+            rows.append(
+                {
+                    "Student model": _display_name(student_name),
+                    "Teacher Model": _display_name(teacher_name),
+                    "Layer": layer_name,
+                    "FSS Score": _format_metric_value(fss_info),
+                    "Explanation": _build_fss_explanation(fss_info),
+                }
+            )
+
+    return rows
+
+
+def _markdown_table(rows: List[Dict[str, str]], headers: List[str]) -> str:
+    if not rows:
+        return "No rows available.\n"
     lines = [
         "| " + " | ".join(headers) + " |",
         "| " + " | ".join(["---"] * len(headers)) + " |",
@@ -86,10 +113,37 @@ def _markdown_table(rows: List[Dict[str, str]]) -> str:
 
 
 def write_rsfss_summary_table(report: Dict[str, Any], output_path: str | Path) -> Path:
-    rows = build_rsfss_summary_rows(report)
+    rs_rows = build_rsfss_summary_rows(report)
+    fss_rows = build_fss_summary_rows(report)
+    rs_headers = [
+        "KD technique",
+        "Layer",
+        "Relevance of Teacher Model Features",
+        "Relevance of Student Model Features",
+        "Explanation",
+    ]
+    fss_headers = [
+        "Student model",
+        "Teacher Model",
+        "Layer",
+        "FSS Score",
+        "Explanation",
+    ]
+    content = "\n".join(
+        [
+            "# RS Summary",
+            "",
+            _markdown_table(rs_rows, rs_headers).rstrip(),
+            "",
+            "# FSS Summary: Teacher vs Student",
+            "",
+            _markdown_table(fss_rows, fss_headers).rstrip(),
+            "",
+        ]
+    )
     output_path = Path(output_path).expanduser().resolve()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(_markdown_table(rows), encoding="utf-8")
+    output_path.write_text(content, encoding="utf-8")
     return output_path
 
 
@@ -102,6 +156,24 @@ def write_rsfss_summary_csv(report: Dict[str, Any], output_path: str | Path) -> 
         "Layer",
         "Relevance of Teacher Model Features",
         "Relevance of Student Model Features",
+        "Explanation",
+    ]
+    with output_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+    return output_path
+
+
+def write_fss_summary_csv(report: Dict[str, Any], output_path: str | Path) -> Path:
+    rows = build_fss_summary_rows(report)
+    output_path = Path(output_path).expanduser().resolve()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = [
+        "Student model",
+        "Teacher Model",
+        "Layer",
+        "FSS Score",
         "Explanation",
     ]
     with output_path.open("w", encoding="utf-8", newline="") as handle:

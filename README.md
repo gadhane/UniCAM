@@ -105,6 +105,22 @@ Measures whether the remaining or transferred features are aligned with the targ
 
 In this repository, we replaced BERT embeddings with CLIP embeddings because the target task is visual and CLIP provides a more suitable visual semantic space.
 
+## How To Compare Models
+
+When teacher and student are compared directly, the comparison is still reasonable and useful. It tells you how much the student aligns with the teacher and what useful teacher information may still remain outside the student.
+
+If your goal is to understand what the student learned specifically because of knowledge distillation, the better comparison is usually:
+- `student_kd`
+- `base_model`
+
+Here, `base_model` means the same student architecture trained with the same setup but without KD.
+
+This makes the residual interpretation as follows:
+- `student_kd_given_base_model` means the features learned because of KD
+- `base_model_given_student_kd` means the features the KD student did not retain
+
+This comparison is especially important when teacher and student have different architectures. If teacher and student have the same architecture, comparing the student directly with the teacher is also a reasonable way to understand  the knowledge transfer.
+
 ## Use With Your Own Models And Dataset
 
 You can adapt the pipeline to your own teacher and student models and your own dataset.
