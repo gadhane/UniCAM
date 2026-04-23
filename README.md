@@ -23,6 +23,9 @@ Use this when your teacher and student come from mixed supported CNN families su
 ### `main_RSFSS_raw.py`
 Use this for quantification. It computes FSS and RS directly from raw features with no CAM and no perturbation.
 
+### `main_RSFSS_raw_mixed.py`
+Use this for quantification when the teacher and students come from mixed supported families such as `resnet` and `vgg`. It computes FSS and RS from raw features and also writes the summary table.
+
 ### `main_RSFSS.py`
 This is an explanation-conditioned quantification path. It is useful as an additional analysis script, but for the main quantification workflow use `main_RSFSS_raw.py`.
 
@@ -68,13 +71,25 @@ python .\main_RSFSS_raw.py --max-batches 10 --batch-size 8
 python .\main_RSFSS.py --max-batches 10 --batch-size 8
 ```
 
-### 5. Teacher-only baseline
+### 5. Quantification with raw features for mixed `resnet` / `vgg` backbones
+
+```powershell
+python .\main_RSFSS_raw_mixed.py --teacher-arch resnet152 --student-archs vgg11 vgg13 vgg16 --max-batches 10 --batch-size 8
+```
+
+Example with VGG teacher and ResNet students:
+
+```powershell
+python .\main_RSFSS_raw_mixed.py --teacher-arch vgg16 --student-archs resnet18 resnet34 resnet50 --max-batches 10 --batch-size 8
+```
+
+### 6. Teacher-only baseline
 
 ```powershell
 python .\main_RS_FSS.py --split test --max-batches 10 --batch-size 8
 ```
 
-### 6. Mixed-architecture quantification preset
+### 7. Mixed-architecture quantification preset
 
 ```powershell
 python .\quantifyXAI.py --max-batches 10 --batch-size 8
@@ -106,6 +121,7 @@ You can adapt the pipeline to your own teacher and student models and your own d
 ### For quantification
 
 - Use `main_RSFSS_raw.py` as the main quantification script.
+- Use `main_RSFSS_raw_mixed.py` when your teacher and students come from mixed supported families such as `resnet` and `vgg`.
 - Update the model specifications to your teacher and student checkpoints.
 - Point `--data-dir` to your dataset root.
 - Make sure the dataset split structure matches the expected layout, such as `train/` and `test/`.
@@ -117,7 +133,7 @@ You can adapt the pipeline to your own teacher and student models and your own d
 2. Point `--data-dir` to your dataset.
 3. Confirm the class mapping used by the dataset loader.
 4. If needed, adjust the target layer or stage mapping for your model family.
-5. Run UniCAM for explanation and `main_RSFSS_raw.py` for quantification.
+5. Run UniCAM for explanation and `main_RSFSS_raw.py` or `main_RSFSS_raw_mixed.py` for quantification.
 
 ## Outputs
 
@@ -128,4 +144,4 @@ You can adapt the pipeline to your own teacher and student models and your own d
 
 - `main_UniCAM.py` is the main explainability script used for ResNet teacher-student experiments.
 - `main_UniCAM_mixed.py` is the maintained mixed-backbone explainability path for supported families such as `resnet` and `vgg`.
-- For quantification, prefer `main_RSFSS_raw.py`.
+- For quantification, prefer `main_RSFSS_raw.py` for same-family setups and `main_RSFSS_raw_mixed.py` for mixed supported families.
